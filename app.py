@@ -257,19 +257,22 @@ def handle_requests():
         return jsonify({"error": "UID and region are required"}), 400
 
     try:
-        # Run the async function in an event loop
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        result = loop.run_until_complete(process_like_request(uid, server_name))
-        loop.close()
-        
+        # Executa a função assíncrona de forma segura
+        result = asyncio.run(process_like_request(uid, server_name))
+
         if "error" in result:
             return jsonify(result), 500
         return jsonify(result)
-        
+
     except Exception as e:
         app.logger.error(f"Error processing request: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/')
+def index():
+    return "API está rodando 🚀"
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
