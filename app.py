@@ -61,7 +61,6 @@ def enc(uid):
     encrypted_uid = encrypt_message(protobuf_data)
     return encrypted_uid
 
-# Fetch tokens from all JWT APIs with retries
 async def fetch_all_tokens_with_retry():
     urls = [
         "https://showjwt-tan.vercel.app/token"
